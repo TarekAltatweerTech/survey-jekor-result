@@ -1,10 +1,10 @@
 # Jekor survey results
 
-A landscape, big-screen React presentation for revealing the Jekor survey winner: it runs a timed countdown, synchronizes the reveal with audio and fireworks, then presents the full product ranking by average rating.
+A landscape, big-screen React presentation for revealing the Jekor survey winner: it runs a 30-second countdown, then synchronizes the reveal with audio and fireworks while showing every product with its share of the votes out of 100, most voted first.
 
 ## Presenter options
 
-- `?seconds=10` sets the countdown length (clamped to 3–60 seconds).
+- `?seconds=30` sets the countdown length (clamped to 3–60 seconds; 30 when omitted).
 - `?demo=1` uses a built-in five-product Arabic dataset for offline rehearsal.
 - Keyboard: `Space` or `Enter` starts, `M` mutes, `F` toggles fullscreen, and `R` returns to the ready screen and refreshes results.
 

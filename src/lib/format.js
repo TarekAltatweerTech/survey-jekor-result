@@ -55,9 +55,12 @@ export function formatCount(value, type) {
   return forms[category](formatInteger(count));
 }
 
+const DEFAULT_COUNTDOWN_SECONDS = 30;
+
 export function countdownSeconds() {
-  const value = Number(new URLSearchParams(window.location.search).get('seconds'));
-  return Number.isFinite(value) ? Math.min(60, Math.max(3, Math.round(value))) : 10;
+  const raw = new URLSearchParams(window.location.search).get('seconds');
+  const value = raw === null || raw.trim() === '' ? NaN : Number(raw);
+  return Number.isFinite(value) ? Math.min(60, Math.max(3, Math.round(value))) : DEFAULT_COUNTDOWN_SECONDS;
 }
 
 export function isDemoMode() {

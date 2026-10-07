@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import Controls from './components/Controls';
 import Countdown from './components/Countdown';
 import Fireworks from './components/Fireworks';
 import Ranking from './components/Ranking';
 import ReadyScreen from './components/ReadyScreen';
-import WinnerReveal from './components/WinnerReveal';
 import { fetchResults } from './lib/api';
 import { ShowAudio } from './lib/audio';
 import { demoResults } from './lib/demo';
@@ -53,7 +52,6 @@ export default function App() {
   const audioRef = useRef(null);
   const requestRef = useRef(null);
   const startingRef = useRef(false);
-  const revealedRef = useRef(false);
   const idleTimerRef = useRef(null);
 
   const applyResults = useCallback((data) => {
@@ -103,19 +101,13 @@ export default function App() {
     let frame;
 
     const updateClock = (time) => {
-      if (!revealedRef.current && time >= timeline.revealPerf) {
-        revealedRef.current = true;
+      if (time >= timeline.revealPerf) {
         setPresentedResults(resultsRef.current);
-        setPhase('reveal');
-      } else if (!revealedRef.current) {
-        setNow(time);
-      }
-
-      if (time >= timeline.revealPerf + 5500) {
-        setPhase('ranking');
+        setPhase('results');
         return;
       }
 
+      setNow(time);
       frame = requestAnimationFrame(updateClock);
     };
 
@@ -147,7 +139,6 @@ export default function App() {
     void loadResults({ quiet: true });
 
     const showTimeline = await audioRef.current.startShow(SHOW_SECONDS);
-    revealedRef.current = false;
     setNow(showTimeline.startPerf);
     setTimeline({ ...showTimeline, seconds: SHOW_SECONDS });
     setPhase('countdown');
@@ -157,7 +148,6 @@ export default function App() {
 
   const replay = useCallback(() => {
     audioRef.current?.stop();
-    revealedRef.current = false;
     startingRef.current = false;
     setStarting(false);
     setTimeline(null);
@@ -219,25 +209,20 @@ export default function App() {
   return (
     <main className={'app app--' + phase + (idle ? ' is-idle' : '')}>
       <div className="ambient-glow" aria-hidden="true" />
-      {timeline && (phase === 'reveal' || phase === 'ranking') && (
+      {timeline && phase === 'results' && (
         <Fireworks originTime={timeline.revealPerf} />
       )}
-      <LayoutGroup>
-        <AnimatePresence mode="sync">
-          {phase === 'loading' && <motion.div key="loading" className="phase"><LoadingScreen /></motion.div>}
-          {phase === 'error' && <motion.div key="error" className="phase"><ErrorScreen message={error} onRetry={() => loadResults()} /></motion.div>}
-          {phase === 'ready' && results && <motion.div key="ready" className="phase"><ReadyScreen data={results} onStart={startShow} starting={starting} /></motion.div>}
-          {phase === 'countdown' && timeline && (
-            <motion.div key="countdown" className="phase">
-              <Countdown now={now} startPerf={timeline.startPerf} revealPerf={timeline.revealPerf} seconds={timeline.seconds} />
-            </motion.div>
-          )}
-          {phase === 'reveal' && showData && timeline && (
-            <motion.div key="reveal" className="phase"><WinnerReveal data={showData} /></motion.div>
-          )}
-          {phase === 'ranking' && showData && <motion.div key="ranking" className="phase"><Ranking data={showData} /></motion.div>}
-        </AnimatePresence>
-      </LayoutGroup>
+      <AnimatePresence mode="sync">
+        {phase === 'loading' && <motion.div key="loading" className="phase"><LoadingScreen /></motion.div>}
+        {phase === 'error' && <motion.div key="error" className="phase"><ErrorScreen message={error} onRetry={() => loadResults()} /></motion.div>}
+        {phase === 'ready' && results && <motion.div key="ready" className="phase"><ReadyScreen data={results} onStart={startShow} starting={starting} /></motion.div>}
+        {phase === 'countdown' && timeline && (
+          <motion.div key="countdown" className="phase">
+            <Countdown now={now} startPerf={timeline.startPerf} revealPerf={timeline.revealPerf} seconds={timeline.seconds} />
+          </motion.div>
+        )}
+        {phase === 'results' && showData && <motion.div key="results" className="phase"><Ranking data={showData} /></motion.div>}
+      </AnimatePresence>
       <Controls muted={muted} fullscreen={fullscreen} onMute={toggleMute} onFullscreen={toggleFullscreen} onReplay={replay} />
     </main>
   );

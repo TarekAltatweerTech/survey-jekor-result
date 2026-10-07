@@ -1,9 +1,10 @@
 # Jekor survey results — agent notes
 
 Big-screen (16:9, landscape) reveal page for the Jekor product survey: a presenter starts a
-countdown, the most voted product is revealed with sound and fireworks, then every product is
-ranked by its average stars. Standalone React 19 + Vite site deployed on Vercel; its only backend
-is `GET /api/v4/survey/results` of the Laravel API (address in `VITE_RESULTS_API_URL`).
+30-second countdown, then the most voted product is revealed with sound and fireworks together with
+every product's share of the votes out of 100 (`vote_pct`), most voted first; the average stars stay
+as a side column. Standalone React 19 + Vite site deployed on Vercel; its only backend is
+`GET /api/v4/survey/results` of the Laravel API (address in `VITE_RESULTS_API_URL`).
 
 ## Commands
 

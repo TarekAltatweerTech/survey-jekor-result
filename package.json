@@ -2,7 +2,7 @@
   "name": "jekor-survey-results",
   "private": true,
   "version": "1.0.0",
-  "description": "Jekor survey results reveal for a big screen: countdown, winner reveal with sound and fireworks, then the ranking by stars. Standalone Vite + React site deployed on Vercel; reads the Laravel API v4.",
+  "description": "Jekor survey results reveal for a big screen: 30-second countdown, then the winner reveal with sound and fireworks and every product's share of the votes out of 100. Standalone Vite + React site deployed on Vercel; reads the Laravel API v4.",
   "type": "module",
   "scripts": {
     "dev": "vite",

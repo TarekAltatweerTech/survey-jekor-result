@@ -151,12 +151,6 @@ button:focus-visible {
   height: 100%;
 }
 
-.seal--draw .seal__check {
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-  animation: draw-check 0.48s 0.72s var(--ease-out) forwards;
-}
-
 /* Loading and error */
 
 .status-screen {
@@ -615,16 +609,7 @@ button:focus-visible {
 .product-plate__empty span::before { transform: translate(-50%, -50%) rotate(90deg); }
 .product-plate__empty span::after { transform: translate(-50%, -50%); }
 
-/* Winner */
-
-.winner-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 3.5vh 5vw 4vh;
-  text-align: center;
-}
+/* Reveal overlays */
 
 .fireworks-canvas,
 .reveal-flash {
@@ -643,135 +628,6 @@ button:focus-visible {
   z-index: 12;
   background: radial-gradient(circle, #fff 0%, #fff5c9 32%, rgba(233, 207, 140, 0.85) 60%, transparent 100%);
   mix-blend-mode: screen;
-}
-
-.winner-screen__kicker {
-  z-index: 4;
-  margin: 0 0 0.8vh;
-  font-size: clamp(16px, 1.25vw, 30px);
-  font-weight: 600;
-  color: var(--gold-300);
-}
-
-.winner-screen__kicker::before,
-.winner-screen__kicker::after {
-  display: inline-block;
-  width: 3.8vw;
-  height: 1px;
-  margin: 0 1vw;
-  content: '';
-  vertical-align: middle;
-  background: linear-gradient(90deg, transparent, var(--gold-500));
-}
-
-.winner-screen__kicker::after { transform: scaleX(-1); }
-
-.winner-visual {
-  position: relative;
-  z-index: 4;
-  display: grid;
-  place-items: center;
-  width: min(44vh, 29vw);
-  aspect-ratio: 1;
-}
-
-.winner-rays {
-  position: absolute;
-  inset: -18%;
-  border-radius: 50%;
-  opacity: 0.32;
-  background: repeating-conic-gradient(from 0deg, rgba(233, 207, 140, 0.5) 0deg 7deg, transparent 7deg 16deg);
-  mask-image: radial-gradient(circle, transparent 0 28%, #000 65%, transparent 72%);
-  -webkit-mask-image: radial-gradient(circle, transparent 0 28%, #000 65%, transparent 72%);
-  animation: rays-spin 24s linear infinite;
-}
-
-.winner-plate-wrap {
-  position: relative;
-  width: 82%;
-  aspect-ratio: 1;
-}
-
-.winner-product {
-  width: 100%;
-}
-
-.winner-product img {
-  width: 88%;
-  height: 88%;
-}
-
-.winner-seal {
-  position: absolute;
-  z-index: 4;
-  right: -13%;
-  bottom: -3%;
-  width: 36%;
-  aspect-ratio: 1;
-  filter: drop-shadow(0 1vh 1.2vh rgba(0, 0, 0, 0.38));
-}
-
-.winner-seal span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 78%;
-  font-size: clamp(8px, 0.6vw, 15px);
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--gold-100);
-  transform: translate(-50%, 165%) rotate(8deg);
-}
-
-.winner-copy {
-  position: relative;
-  z-index: 4;
-  margin-top: -1vh;
-}
-
-.winner-copy h1 {
-  margin: 0;
-  font-family: var(--display);
-  font-size: clamp(52px, 5vw, 122px);
-  font-weight: 700;
-  line-height: 1.5;
-  color: var(--paper);
-  text-shadow: 0 1vh 2.5vh rgba(0, 0, 0, 0.46);
-}
-
-.winner-copy h1::after {
-  display: block;
-  width: 42%;
-  height: max(1px, 0.08vw);
-  margin: 0 auto;
-  content: '';
-  background: linear-gradient(90deg, transparent, var(--gold-500), transparent);
-}
-
-.winner-stats {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.9vw;
-  margin-top: 1.5vh;
-  font-size: clamp(14px, 1.05vw, 26px);
-  color: rgba(246, 235, 203, 0.78);
-}
-
-.winner-stats > i {
-  width: 0.26vw;
-  min-width: 4px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--gold-500);
-}
-
-.winner-rating {
-  display: flex;
-  align-items: center;
-  gap: 0.45vw;
-  color: var(--gold-300);
-  font-weight: 700;
 }
 
 /* Star bars */
@@ -1005,7 +861,7 @@ button:focus-visible {
 
 .ranking-row {
   display: grid;
-  grid-template-columns: clamp(36px, 3.3vw, 80px) clamp(42px, 4.5vw, 108px) clamp(220px, 18vw, 430px) minmax(280px, 1fr) max-content;
+  grid-template-columns: clamp(36px, 3.3vw, 80px) clamp(42px, 4.5vw, 108px) clamp(200px, 16vw, 400px) minmax(260px, 1fr) clamp(150px, 12vw, 400px);
   gap: 1vw;
   align-items: center;
   min-height: 0;
@@ -1116,16 +972,65 @@ button:focus-visible {
   white-space: nowrap;
 }
 
-.ranking-row__votes {
-  justify-self: end;
-  padding: 0.42vh 0.9vw;
-  border: 1px solid rgba(15, 61, 36, 0.12);
-  border-radius: 999px;
-  font-size: clamp(14px, 1.2vw, 46px);
+.vote-meter {
+  display: flex;
+  align-items: center;
+  gap: 1.4vw;
+  min-width: 0;
+}
+
+.vote-meter__score {
+  display: grid;
+  flex: none;
+  grid-template-columns: max-content max-content;
+  align-items: baseline;
+  justify-content: start;
+  column-gap: 0.45vw;
+  min-width: clamp(130px, 11vw, 270px);
+  color: var(--green-800);
+}
+
+.vote-meter__score strong {
+  font-family: var(--display);
+  font-size: clamp(26px, 2.5vw, 96px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.vote-meter__score span {
+  font-size: clamp(13px, 1.05vw, 40px);
+  font-weight: 600;
+  color: var(--gold-700);
+}
+
+.vote-meter__score small {
+  grid-column: 1 / -1;
+  font-size: clamp(12px, 0.95vw, 36px);
   line-height: 1.25;
   color: var(--muted);
-  background: rgba(255, 253, 248, 0.78);
-  white-space: nowrap;
+}
+
+.vote-meter__track {
+  flex: 1;
+  height: clamp(10px, 1.05vw, 38px);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(15, 61, 36, 0.12);
+  border-radius: 999px;
+  background: rgba(15, 61, 36, 0.06);
+}
+
+.vote-meter__track i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(270deg, var(--green-600), var(--green-800));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.ranking-row--winner .vote-meter__track i {
+  background: linear-gradient(270deg, var(--gold-300), var(--gold-500) 55%, var(--gold-700));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 /* Presentation controls */
@@ -1204,18 +1109,9 @@ button:focus-visible {
   50% { opacity: 1; transform: scale(1); }
 }
 
-@keyframes rays-spin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes draw-check {
-  to { stroke-dashoffset: 0; }
-}
-
 @media (max-aspect-ratio: 16 / 10) {
   .ranking-screen { padding-inline: 2vw; }
   .ranking-sheet { width: 96vw; }
-  .winner-visual { width: min(42vh, 31vw); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1226,9 +1122,5 @@ button:focus-visible {
     animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .seal--draw .seal__check {
-    stroke-dashoffset: 0;
   }
 }

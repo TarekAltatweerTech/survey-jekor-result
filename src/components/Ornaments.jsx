@@ -30,9 +30,9 @@ const ROSETTE = (() => {
   return points.join(' ');
 })();
 
-export function Seal({ className = '', draw = false }) {
+export function Seal({ className = '' }) {
   return (
-    <svg className={'seal ' + (draw ? 'seal--draw ' : '') + className} viewBox="0 0 100 100" aria-hidden="true">
+    <svg className={'seal ' + className} viewBox="0 0 100 100" aria-hidden="true">
       <defs>
         <linearGradient id="seal-gold" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#F1DB9E" />
