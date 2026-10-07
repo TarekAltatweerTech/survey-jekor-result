@@ -2,8 +2,9 @@
 
 Big-screen (16:9, landscape) reveal page for the Jekor product survey: a presenter starts a
 30-second countdown, then the most voted product is revealed with sound and fireworks together with
-every product's share of the votes out of 100 (`vote_pct`), most voted first; the average stars stay
-as a side column. Standalone React 19 + Vite site deployed on Vercel; its only backend is
+every product's share of the votes out of 100 (votes × 100 ÷ total votes of the listed products,
+computed in `src/lib/results.js` — not the server's `vote_pct`, which divides by all responses),
+most voted first; the average stars stay as a side column. Standalone React 19 + Vite site deployed on Vercel; its only backend is
 `GET /api/v4/survey/results` of the Laravel API (address in `VITE_RESULTS_API_URL`).
 
 ## Commands

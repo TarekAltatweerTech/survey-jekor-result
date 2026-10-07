@@ -9,6 +9,7 @@ import { fetchResults } from './lib/api';
 import { ShowAudio } from './lib/audio';
 import { demoResults } from './lib/demo';
 import { countdownSeconds, isDemoMode } from './lib/format';
+import { withVoteShares } from './lib/results';
 
 const SHOW_SECONDS = countdownSeconds();
 const DEMO_MODE = isDemoMode();
@@ -55,8 +56,9 @@ export default function App() {
   const idleTimerRef = useRef(null);
 
   const applyResults = useCallback((data) => {
-    resultsRef.current = data;
-    setResults(data);
+    const shared = withVoteShares(data);
+    resultsRef.current = shared;
+    setResults(shared);
   }, []);
 
   const loadResults = useCallback(async ({ quiet = false } = {}) => {

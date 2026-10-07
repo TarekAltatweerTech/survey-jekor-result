@@ -1,4 +1,4 @@
-const RESULTS_URL = import.meta.env.VITE_RESULTS_API_URL || 'api/v4/survey/results';
+const RESULTS_URL = import.meta.env.VITE_RESULTS_API_URL || '/api/v4/survey/results';
 
 export async function fetchResults({ signal } = {}) {
   let response;
